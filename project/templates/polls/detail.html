@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!-- 탬플릿 태그 단술 출력은 {{  로 하나봄. -->
+<h1>{{ question.question_text }}</h1>
+<!-- 뷰에서 question이란 이름으로 Question의 모델객체를 하나 response에 실려서 보냄. -->
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<!-- 폼태그 잘 보자. action에 해당하는 url을 갖는 뷰로 값을 넘긴다.  -->
+<form action="{% url 'polls:vote' question.id %}" method="post">
+{% csrf_token %}
+{% for choice in question.choice_set.all %}
+    <!-- name속성의 값이 일치하는 필드랑 맵핑함. -->
+    <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+    <!-- forloop.counter 는 for 태그가 반복을 한 횟수 -->
+    <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+{% endfor %}
+<input type="submit" value="Vote">
+</form>
+</ul>
+
+
+</body>
+</html>
